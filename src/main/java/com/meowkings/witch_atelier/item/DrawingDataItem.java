@@ -30,7 +30,7 @@ public class DrawingDataItem extends Item {
             serverPlayer.openMenu(new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
-                    return Component.literal("Drawing Data");
+                    return Component.translatable("item.witch_atelier.drawing_data");
                 }
 
                 @Override

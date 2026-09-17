@@ -29,7 +29,7 @@ public class MagicGuideItem extends Item {
             serverPlayer.openMenu(new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
-                    return Component.literal("A Witchcraft Grimoire for Beginners");
+                    return Component.translatable("item.witch_atelier.magic_guide");
                 }
 
                 @Override

@@ -62,18 +62,18 @@ public class MagicGuideGUIScreen extends AbstractContainerScreen<MagicGuideGUIMe
     private void renderPageContent(GuiGraphics g) {
         int x = this.leftPos;
         int y = this.topPos;
-        String title = "";
-        String desc = "";
+        Component title = Component.empty();
+        Component description = Component.empty();
         byte[] pattern = new byte[289];
 
         switch (currentPage) {
             case 0 -> {
-                title = "Основы";
-                desc = "Магия требует Перо и Чернила. Знаки рисуются в центре (7x7). ВАЖНО: После завершения рисунка ЗАМКНИТЕ внешний круг для активации.";
+                title = Component.translatable("screen.witch_atelier.magic_guide.basics.title");
+                description = Component.translatable("screen.witch_atelier.magic_guide.basics.description");
             }
             case 1 -> {
-                title = "Стихия Огня";
-                desc = "Сжигает врагов. Аура: защита от огня. На блоке: плавит песок в стекло.";
+                title = Component.translatable("screen.witch_atelier.magic_guide.fire.title");
+                description = Component.translatable("screen.witch_atelier.magic_guide.fire.description");
                 pattern[8 * 17 + 8] = 1;
                 pattern[7 * 17 + 8] = 1;
                 pattern[9 * 17 + 8] = 1;
@@ -81,8 +81,8 @@ public class MagicGuideGUIScreen extends AbstractContainerScreen<MagicGuideGUIMe
                 pattern[8 * 17 + 9] = 1;
             }
             case 2 -> {
-                title = "Стихия Света";
-                desc = "Луч: ослепление. Аура: ночное зрение. На блоке: источник вечного света.";
+                title = Component.translatable("screen.witch_atelier.magic_guide.light.title");
+                description = Component.translatable("screen.witch_atelier.magic_guide.light.description");
                 for (int i = 7; i <= 9; i++) {
                     pattern[7 * 17 + i] = 1;
                     pattern[9 * 17 + i] = 1;
@@ -91,8 +91,8 @@ public class MagicGuideGUIScreen extends AbstractContainerScreen<MagicGuideGUIMe
                 pattern[8 * 17 + 9] = 1;
             }
             case 3 -> {
-                title = "Стихия Воды";
-                desc = "Тушит огонь. Аура: грация дельфина. На блоке: делает его скользким.";
+                title = Component.translatable("screen.witch_atelier.magic_guide.water.title");
+                description = Component.translatable("screen.witch_atelier.magic_guide.water.description");
                 pattern[7 * 17 + 8] = 1;
                 pattern[7 * 17 + 9] = 1;
                 pattern[8 * 17 + 8] = 1;
@@ -100,8 +100,8 @@ public class MagicGuideGUIScreen extends AbstractContainerScreen<MagicGuideGUIMe
                 pattern[9 * 17 + 8] = 1;
             }
             case 4 -> {
-                title = "Стихия Ветра";
-                desc = "Отбрасывает цели. Аура: плавное падение. На блоке: поршень вверх.";
+                title = Component.translatable("screen.witch_atelier.magic_guide.wind.title");
+                description = Component.translatable("screen.witch_atelier.magic_guide.wind.description");
                 pattern[7 * 17 + 7] = 1;
                 pattern[7 * 17 + 9] = 1;
                 pattern[8 * 17 + 8] = 1;
@@ -109,8 +109,8 @@ public class MagicGuideGUIScreen extends AbstractContainerScreen<MagicGuideGUIMe
                 pattern[9 * 17 + 9] = 1;
             }
             case 5 -> {
-                title = "Стихия Земли";
-                desc = "Луч: слабость. Аура: стойкость. На блоке: добавляет гравитацию.";
+                title = Component.translatable("screen.witch_atelier.magic_guide.earth.title");
+                description = Component.translatable("screen.witch_atelier.magic_guide.earth.description");
                 pattern[7 * 17 + 7] = 1;
                 pattern[7 * 17 + 9] = 1;
                 pattern[8 * 17 + 7] = 1;
@@ -120,8 +120,8 @@ public class MagicGuideGUIScreen extends AbstractContainerScreen<MagicGuideGUIMe
                 pattern[9 * 17 + 9] = 1;
             }
             case 6 -> {
-                title = "Кристаллы";
-                desc = "Луч: аметист. Аура: удача. Без направляющих: выброс энергии.";
+                title = Component.translatable("screen.witch_atelier.magic_guide.crystal.title");
+                description = Component.translatable("screen.witch_atelier.magic_guide.crystal.description");
                 for (int i = 7; i <= 9; i++) {
                     for (int j = 7; j <= 9; j++) {
                         pattern[i * 17 + j] = 1;
@@ -129,8 +129,8 @@ public class MagicGuideGUIScreen extends AbstractContainerScreen<MagicGuideGUIMe
                 }
             }
             case 7 -> {
-                title = "Лёд (Синтез)";
-                desc = "Замедление. Рисуйте знаки Воды и Воздуха вместе в центре 7х7.";
+                title = Component.translatable("screen.witch_atelier.magic_guide.ice.title");
+                description = Component.translatable("screen.witch_atelier.magic_guide.ice.description");
                 pattern[6 * 17 + 6] = 1;
                 pattern[6 * 17 + 7] = 1;
                 pattern[7 * 17 + 6] = 1;
@@ -143,23 +143,23 @@ public class MagicGuideGUIScreen extends AbstractContainerScreen<MagicGuideGUIMe
                 pattern[11 * 17 + 12] = 1;
             }
             case 8 -> {
-                title = "Векторы (T)";
-                desc = "T наружу: Выстрел. T внутрь: Аура. Длина ножки определяет силу заклинания.";
+                title = Component.translatable("screen.witch_atelier.magic_guide.vectors.title");
+                description = Component.translatable("screen.witch_atelier.magic_guide.vectors.description");
                 pattern[2 * 17 + 8] = 1;
                 pattern[1 * 17 + 7] = 1;
                 pattern[1 * 17 + 8] = 1;
                 pattern[1 * 17 + 9] = 1;
             }
             case 9 -> {
-                title = "Вихри / и \\";
-                desc = "Косая линия на краю круга. Меняет форму: Концентрация или Рассеивание.";
+                title = Component.translatable("screen.witch_atelier.magic_guide.vortices.title");
+                description = Component.translatable("screen.witch_atelier.magic_guide.vortices.description");
                 pattern[3 * 17 + 4] = 1;
                 pattern[4 * 17 + 3] = 1;
                 pattern[5 * 17 + 2] = 1;
             }
             case 10 -> {
-                title = "Триггер (Ромб)";
-                desc = "Пустой крест на краю. На блоке: мина. На себе: щит контрудара.";
+                title = Component.translatable("screen.witch_atelier.magic_guide.trigger.title");
+                description = Component.translatable("screen.witch_atelier.magic_guide.trigger.description");
                 pattern[14 * 17 + 8] = 1;
                 pattern[15 * 17 + 7] = 1;
                 pattern[15 * 17 + 9] = 1;
@@ -168,11 +168,11 @@ public class MagicGuideGUIScreen extends AbstractContainerScreen<MagicGuideGUIMe
         }
 
         g.drawString(this.font, title, x + 40, y + 25, 0x5D2906, false);
-        renderSplitText(g, desc, x + 35, y + 45, 100);
+        renderSplitText(g, description, x + 35, y + 45, 100);
         renderTutorialGrid(g, x + 150, y + 25, pattern);
     }
-    private void renderSplitText(GuiGraphics g, String text, int x, int y, int width) {
-        List<net.minecraft.util.FormattedCharSequence> lines = this.font.split(Component.literal(text), width);
+    private void renderSplitText(GuiGraphics g, Component text, int x, int y, int width) {
+        List<net.minecraft.util.FormattedCharSequence> lines = this.font.split(text, width);
         int currentY = y;
         for (net.minecraft.util.FormattedCharSequence line : lines) {
             g.drawString(this.font, line, x, currentY, 0x333333, false);

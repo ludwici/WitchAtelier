@@ -73,7 +73,7 @@ public class SymbolRhombusBlockEntity extends RandomizableContainerBlockEntity i
 
     @Override
     public Component getDefaultName() {
-        return Component.literal("symbol_rhombus");
+        return Component.translatable("block.witch_atelier.symbol_rhombus");
     }
 
     @Override
@@ -83,7 +83,7 @@ public class SymbolRhombusBlockEntity extends RandomizableContainerBlockEntity i
 
     @Override
     public Component getDisplayName() {
-        return Component.literal("Symbol Rhombus");
+        return Component.translatable("block.witch_atelier.symbol_rhombus");
     }
 
     @Override

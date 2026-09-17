@@ -33,7 +33,7 @@ public class MagicPageItemItem extends Item {
             serverPlayer.openMenu(new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
-                    return Component.literal("CanvasGUI");
+                    return Component.translatable("item.witch_atelier.magic_page_item");
                 }
 
                 @Override

@@ -73,7 +73,7 @@ public class SymbolTriangleBlockEntity extends RandomizableContainerBlockEntity 
 
     @Override
     public Component getDefaultName() {
-        return Component.literal("symbol_triangle");
+        return Component.translatable("block.witch_atelier.symbol_triangle");
     }
 
     @Override
@@ -83,7 +83,7 @@ public class SymbolTriangleBlockEntity extends RandomizableContainerBlockEntity 
 
     @Override
     public Component getDisplayName() {
-        return Component.literal("Symbol Triangle");
+        return Component.translatable("block.witch_atelier.symbol_triangle");
     }
 
     @Override
