@@ -1,0 +1,16 @@
+{
+  "type": "witch_atelier:structure_feature",
+  "config": {
+    "structure": "witch_atelier:silver_tree1",
+    "ignored_blocks": [
+      "minecraft:grass_block",
+      "minecraft:structure_block",
+      "minecraft:dirt"
+    ],
+    "offset": [
+      -4,
+      -1,
+      -4
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "minecraft:block/bamboo_planks",
+    "up": "minecraft:block/bamboo_planks",
+    "north": "minecraft:block/bamboo_door_bottom",
+    "east": "minecraft:block/bamboo_planks",
+    "south": "minecraft:block/bamboo_planks",
+    "west": "minecraft:block/bamboo_planks",
+    "particle": "minecraft:block/bamboo_planks"
+  },
+  "render_type": "solid"
+}

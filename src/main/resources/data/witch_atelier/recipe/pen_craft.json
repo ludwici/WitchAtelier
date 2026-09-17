@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_nugget"
+    },
+    {
+      "item": "witch_atelier:silverwood_stick"
+    }
+  ],
+  "result": {
+    "id": "witch_atelier:magic_pen",
+    "count": 1
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "a",
+    "b"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:iron_ingot"
+    },
+    "b": {
+      "item": "witch_atelier:silverwood_stick"
+    }
+  },
+  "result": {
+    "id": "witch_atelier:silverwood_knife",
+    "count": 1
+  }
+}

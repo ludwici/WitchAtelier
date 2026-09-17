@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "witch_atelier:block/portal_core_new"
+    },
+    "facing=east": {
+      "model": "witch_atelier:block/portal_core_new",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "witch_atelier:block/portal_core_new",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "witch_atelier:block/portal_core_new",
+      "y": 270
+    }
+  }
+}

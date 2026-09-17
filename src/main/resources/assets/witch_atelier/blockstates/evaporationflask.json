@@ -1,0 +1,46 @@
+{
+  "variants": {
+    "boiling=false,stage=0": {
+      "model": "witch_atelier:block/evaporationflask_0"
+    },
+    "boiling=true,stage=0": {
+      "model": "witch_atelier:block/evaporationflask_1"
+    },
+    "boiling=false,stage=1": {
+      "model": "witch_atelier:block/evaporationflask_2"
+    },
+    "boiling=true,stage=1": {
+      "model": "witch_atelier:block/evaporationflask_3"
+    },
+    "boiling=false,stage=2": {
+      "model": "witch_atelier:block/evaporationflask_4"
+    },
+    "boiling=true,stage=2": {
+      "model": "witch_atelier:block/evaporationflask_5"
+    },
+    "boiling=false,stage=3": {
+      "model": "witch_atelier:block/evaporationflask_6"
+    },
+    "boiling=true,stage=3": {
+      "model": "witch_atelier:block/evaporationflask_7"
+    },
+    "boiling=false,stage=4": {
+      "model": "witch_atelier:block/evaporationflask_8"
+    },
+    "boiling=true,stage=4": {
+      "model": "witch_atelier:block/evaporationflask_9"
+    },
+    "boiling=false,stage=5": {
+      "model": "witch_atelier:block/evaporationflask_10"
+    },
+    "boiling=true,stage=5": {
+      "model": "witch_atelier:block/evaporationflask_11"
+    },
+    "boiling=false,stage=6": {
+      "model": "witch_atelier:block/evaporationflask_12"
+    },
+    "boiling=true,stage=6": {
+      "model": "witch_atelier:block/evaporationflask_13"
+    }
+  }
+}

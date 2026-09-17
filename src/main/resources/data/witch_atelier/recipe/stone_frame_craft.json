@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aa",
+    "ba"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:stone"
+    },
+    "b": {
+      "item": "witch_atelier:wood_blood_stick"
+    }
+  },
+  "result": {
+    "id": "witch_atelier:stone_frame",
+    "count": 1
+  }
+}

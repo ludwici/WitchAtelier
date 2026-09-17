@@ -1,0 +1,9 @@
+{
+  "parent": "witch_atelier:custom/departurealtar",
+  "textures": {
+    "all": "witch_atelier:block/departurealtar",
+    "particle": "witch_atelier:block/departurealtar",
+    "0": "witch_atelier:block/departurealtar"
+  },
+  "render_type": "cutout"
+}

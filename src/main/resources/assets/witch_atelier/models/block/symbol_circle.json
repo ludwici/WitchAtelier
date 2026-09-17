@@ -1,0 +1,13 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "minecraft:block/beehive_end",
+    "up": "minecraft:block/beehive_end",
+    "north": "minecraft:block/beehive_front",
+    "east": "minecraft:block/beehive_end",
+    "south": "minecraft:block/beehive_end",
+    "west": "minecraft:block/beehive_end",
+    "particle": "minecraft:block/beehive_end"
+  },
+  "render_type": "solid"
+}

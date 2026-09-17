@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "witch_atelier:silverwood_planks"
+    },
+    {
+      "item": "witch_atelier:silverwood_planks"
+    }
+  ],
+  "result": {
+    "id": "witch_atelier:silverwood_stick",
+    "count": 4
+  }
+}

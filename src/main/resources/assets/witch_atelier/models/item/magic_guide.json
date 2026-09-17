@@ -1,0 +1,31 @@
+{
+  "loader": "neoforge:separate_transforms",
+  "gui_light": "front",
+  "base": {
+    "parent": "witch_atelier:custom/magicguide",
+    "textures": {
+      "0": "witch_atelier:block/magicguide",
+      "particle": "witch_atelier:item/magicguide_kopiia"
+    }
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "item/generated",
+      "textures": {
+        "layer0": "witch_atelier:item/magicguide_kopiia"
+      }
+    },
+    "fixed": {
+      "parent": "item/generated",
+      "textures": {
+        "layer0": "witch_atelier:item/magicguide_kopiia"
+      }
+    },
+    "ground": {
+      "parent": "item/generated",
+      "textures": {
+        "layer0": "witch_atelier:item/magicguide_kopiia"
+      }
+    }
+  }
+}

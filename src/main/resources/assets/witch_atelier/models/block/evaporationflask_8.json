@@ -1,0 +1,9 @@
+{
+  "parent": "witch_atelier:custom/flask_stickwaterwhite",
+  "textures": {
+    "all": "witch_atelier:block/flask_full_blackwhite",
+    "particle": "witch_atelier:block/flask_full",
+    "0": "witch_atelier:block/flask_full_blackwhite"
+  },
+  "render_type": "translucent"
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "minecraft:block/cauldron_top",
+    "particle": "minecraft:block/cauldron_top"
+  },
+  "render_type": "solid"
+}

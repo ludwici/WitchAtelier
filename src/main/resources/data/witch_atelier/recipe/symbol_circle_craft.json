@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " a",
+    "b "
+  ],
+  "key": {
+    "a": {
+      "item": "witch_atelier:wood_blood_stick"
+    },
+    "b": {
+      "item": "witch_atelier:silverwood_planks"
+    }
+  },
+  "result": {
+    "id": "witch_atelier:symbol_circle",
+    "count": 1
+  }
+}

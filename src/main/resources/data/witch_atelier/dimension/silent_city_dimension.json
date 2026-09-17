@@ -1,0 +1,18 @@
+{
+  "type": "witch_atelier:silent_city_dimension",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "structure_overrides": [
+        "witch_atelier:citytower_1"
+      ],
+      "layers": [
+        { "block": "minecraft:bedrock", "height": 1 },
+        { "block": "minecraft:white_concrete", "height": 62 }
+      ],
+      "biome": "witch_atelier:silent_city_biome",
+      "lakes": false,
+      "features": true
+    }
+  }
+}

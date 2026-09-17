@@ -1,0 +1,9 @@
+{
+  "parent": "witch_atelier:custom/symbol_circle_c2",
+  "textures": {
+    "all": "witch_atelier:block/symbol_circle_c2",
+    "particle": "minecraft:block/beehive_end",
+    "0": "witch_atelier:block/symbol_circle_c2"
+  },
+  "render_type": "solid"
+}

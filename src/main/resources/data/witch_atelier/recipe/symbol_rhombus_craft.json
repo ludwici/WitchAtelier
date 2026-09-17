@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " a ",
+    "aba",
+    " a "
+  ],
+  "key": {
+    "a": {
+      "item": "witch_atelier:silverwood_planks"
+    },
+    "b": {
+      "item": "witch_atelier:wood_blood_stick"
+    }
+  },
+  "result": {
+    "id": "witch_atelier:symbol_rhombus",
+    "count": 1
+  }
+}

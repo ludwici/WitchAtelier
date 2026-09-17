@@ -1,0 +1,13 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "witch_atelier:block/silverwoodlog1",
+    "up": "witch_atelier:block/silverwoodlog1",
+    "north": "witch_atelier:block/silverwoodlog2",
+    "east": "witch_atelier:block/silverwoodlog2",
+    "south": "witch_atelier:block/silverwoodlog2",
+    "west": "witch_atelier:block/silverwoodlog2",
+    "particle": "witch_atelier:block/silverwoodlog1"
+  },
+  "render_type": "solid"
+}

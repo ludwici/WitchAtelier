@@ -1,0 +1,9 @@
+{
+  "parent": "witch_atelier:custom/portalcore",
+  "textures": {
+    "all": "witch_atelier:block/portalcore_1",
+    "particle": "witch_atelier:block/portalcore_1",
+    "0": "witch_atelier:block/portalcore_1"
+  },
+  "render_type": "solid"
+}

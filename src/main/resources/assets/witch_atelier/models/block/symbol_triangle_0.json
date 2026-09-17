@@ -1,0 +1,9 @@
+{
+  "parent": "witch_atelier:custom/symbol_triangle_0",
+  "textures": {
+    "all": "witch_atelier:block/symbol_triangle_0",
+    "particle": "minecraft:block/blast_furnace_top",
+    "0": "witch_atelier:block/symbol_triangle_0"
+  },
+  "render_type": "solid"
+}

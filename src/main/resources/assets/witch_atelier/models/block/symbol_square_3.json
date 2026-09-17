@@ -1,0 +1,9 @@
+{
+  "parent": "witch_atelier:custom/symbol_square_3",
+  "textures": {
+    "all": "witch_atelier:block/symbol_square_3",
+    "particle": "minecraft:block/bamboo_planks",
+    "0": "witch_atelier:block/symbol_square_3"
+  },
+  "render_type": "solid"
+}

@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "witch_atelier:city_maze",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 4,
+    "separation": 2,
+    "salt": 1410816053
+  }
+}

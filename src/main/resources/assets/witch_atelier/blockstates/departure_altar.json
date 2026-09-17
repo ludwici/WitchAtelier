@@ -1,0 +1,57 @@
+{
+  "variants": {
+    "face=floor,facing=north": {
+      "model": "witch_atelier:block/departure_altar"
+    },
+    "face=floor,facing=east": {
+      "model": "witch_atelier:block/departure_altar",
+      "y": 90
+    },
+    "face=floor,facing=south": {
+      "model": "witch_atelier:block/departure_altar",
+      "y": 180
+    },
+    "face=floor,facing=west": {
+      "model": "witch_atelier:block/departure_altar",
+      "y": 270
+    },
+    "face=wall,facing=north": {
+      "model": "witch_atelier:block/departure_altar",
+      "x": 90
+    },
+    "face=wall,facing=east": {
+      "model": "witch_atelier:block/departure_altar",
+      "x": 90,
+      "y": 90
+    },
+    "face=wall,facing=south": {
+      "model": "witch_atelier:block/departure_altar",
+      "x": 90,
+      "y": 180
+    },
+    "face=wall,facing=west": {
+      "model": "witch_atelier:block/departure_altar",
+      "x": 90,
+      "y": 270
+    },
+    "face=ceiling,facing=north": {
+      "model": "witch_atelier:block/departure_altar",
+      "x": 180,
+      "y": 180
+    },
+    "face=ceiling,facing=east": {
+      "model": "witch_atelier:block/departure_altar",
+      "x": 180,
+      "y": 270
+    },
+    "face=ceiling,facing=south": {
+      "model": "witch_atelier:block/departure_altar",
+      "x": 180
+    },
+    "face=ceiling,facing=west": {
+      "model": "witch_atelier:block/departure_altar",
+      "x": 180,
+      "y": 90
+    }
+  }
+}

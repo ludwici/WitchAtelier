@@ -1,0 +1,188 @@
+{
+  "variants": {
+    "facing=north,frame_type=0": {
+      "model": "witch_atelier:block/symbol_triangle_0"
+    },
+    "facing=north,frame_type=1": {
+      "model": "witch_atelier:block/symbol_triangle_1"
+    },
+    "facing=north,frame_type=2": {
+      "model": "witch_atelier:block/symbol_triangle_2"
+    },
+    "facing=north,frame_type=3": {
+      "model": "witch_atelier:block/symbol_triangle_3"
+    },
+    "facing=north,frame_type=4": {
+      "model": "witch_atelier:block/symbol_triangle_4"
+    },
+    "facing=north,frame_type=5": {
+      "model": "witch_atelier:block/symbol_triangle_5"
+    },
+    "facing=north,frame_type=6": {
+      "model": "witch_atelier:block/symbol_triangle_6"
+    },
+    "facing=north,frame_type=7": {
+      "model": "witch_atelier:block/symbol_triangle_7"
+    },
+    "facing=east,frame_type=0": {
+      "model": "witch_atelier:block/symbol_triangle_0",
+      "y": 90
+    },
+    "facing=east,frame_type=1": {
+      "model": "witch_atelier:block/symbol_triangle_1",
+      "y": 90
+    },
+    "facing=east,frame_type=2": {
+      "model": "witch_atelier:block/symbol_triangle_2",
+      "y": 90
+    },
+    "facing=east,frame_type=3": {
+      "model": "witch_atelier:block/symbol_triangle_3",
+      "y": 90
+    },
+    "facing=east,frame_type=4": {
+      "model": "witch_atelier:block/symbol_triangle_4",
+      "y": 90
+    },
+    "facing=east,frame_type=5": {
+      "model": "witch_atelier:block/symbol_triangle_5",
+      "y": 90
+    },
+    "facing=east,frame_type=6": {
+      "model": "witch_atelier:block/symbol_triangle_6",
+      "y": 90
+    },
+    "facing=east,frame_type=7": {
+      "model": "witch_atelier:block/symbol_triangle_7",
+      "y": 90
+    },
+    "facing=south,frame_type=0": {
+      "model": "witch_atelier:block/symbol_triangle_0",
+      "y": 180
+    },
+    "facing=south,frame_type=1": {
+      "model": "witch_atelier:block/symbol_triangle_1",
+      "y": 180
+    },
+    "facing=south,frame_type=2": {
+      "model": "witch_atelier:block/symbol_triangle_2",
+      "y": 180
+    },
+    "facing=south,frame_type=3": {
+      "model": "witch_atelier:block/symbol_triangle_3",
+      "y": 180
+    },
+    "facing=south,frame_type=4": {
+      "model": "witch_atelier:block/symbol_triangle_4",
+      "y": 180
+    },
+    "facing=south,frame_type=5": {
+      "model": "witch_atelier:block/symbol_triangle_5",
+      "y": 180
+    },
+    "facing=south,frame_type=6": {
+      "model": "witch_atelier:block/symbol_triangle_6",
+      "y": 180
+    },
+    "facing=south,frame_type=7": {
+      "model": "witch_atelier:block/symbol_triangle_7",
+      "y": 180
+    },
+    "facing=west,frame_type=0": {
+      "model": "witch_atelier:block/symbol_triangle_0",
+      "y": 270
+    },
+    "facing=west,frame_type=1": {
+      "model": "witch_atelier:block/symbol_triangle_1",
+      "y": 270
+    },
+    "facing=west,frame_type=2": {
+      "model": "witch_atelier:block/symbol_triangle_2",
+      "y": 270
+    },
+    "facing=west,frame_type=3": {
+      "model": "witch_atelier:block/symbol_triangle_3",
+      "y": 270
+    },
+    "facing=west,frame_type=4": {
+      "model": "witch_atelier:block/symbol_triangle_4",
+      "y": 270
+    },
+    "facing=west,frame_type=5": {
+      "model": "witch_atelier:block/symbol_triangle_5",
+      "y": 270
+    },
+    "facing=west,frame_type=6": {
+      "model": "witch_atelier:block/symbol_triangle_6",
+      "y": 270
+    },
+    "facing=west,frame_type=7": {
+      "model": "witch_atelier:block/symbol_triangle_7",
+      "y": 270
+    },
+    "facing=up,frame_type=0": {
+      "model": "witch_atelier:block/symbol_triangle_0",
+      "x": 270
+    },
+    "facing=up,frame_type=1": {
+      "model": "witch_atelier:block/symbol_triangle_1",
+      "x": 270
+    },
+    "facing=up,frame_type=2": {
+      "model": "witch_atelier:block/symbol_triangle_2",
+      "x": 270
+    },
+    "facing=up,frame_type=3": {
+      "model": "witch_atelier:block/symbol_triangle_3",
+      "x": 270
+    },
+    "facing=up,frame_type=4": {
+      "model": "witch_atelier:block/symbol_triangle_4",
+      "x": 270
+    },
+    "facing=up,frame_type=5": {
+      "model": "witch_atelier:block/symbol_triangle_5",
+      "x": 270
+    },
+    "facing=up,frame_type=6": {
+      "model": "witch_atelier:block/symbol_triangle_6",
+      "x": 270
+    },
+    "facing=up,frame_type=7": {
+      "model": "witch_atelier:block/symbol_triangle_7",
+      "x": 270
+    },
+    "facing=down,frame_type=0": {
+      "model": "witch_atelier:block/symbol_triangle_0",
+      "x": 90
+    },
+    "facing=down,frame_type=1": {
+      "model": "witch_atelier:block/symbol_triangle_1",
+      "x": 90
+    },
+    "facing=down,frame_type=2": {
+      "model": "witch_atelier:block/symbol_triangle_2",
+      "x": 90
+    },
+    "facing=down,frame_type=3": {
+      "model": "witch_atelier:block/symbol_triangle_3",
+      "x": 90
+    },
+    "facing=down,frame_type=4": {
+      "model": "witch_atelier:block/symbol_triangle_4",
+      "x": 90
+    },
+    "facing=down,frame_type=5": {
+      "model": "witch_atelier:block/symbol_triangle_5",
+      "x": 90
+    },
+    "facing=down,frame_type=6": {
+      "model": "witch_atelier:block/symbol_triangle_6",
+      "x": 90
+    },
+    "facing=down,frame_type=7": {
+      "model": "witch_atelier:block/symbol_triangle_7",
+      "x": 90
+    }
+  }
+}

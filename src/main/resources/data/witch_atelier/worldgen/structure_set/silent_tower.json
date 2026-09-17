@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "witch_atelier:silent_tower",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 30,
+    "separation": 29,
+    "salt": 74024514
+  }
+}

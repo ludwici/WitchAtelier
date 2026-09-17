@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa",
+    "aba",
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:stone"
+    },
+    "b": {
+      "item": "witch_atelier:wood_blood_stick"
+    }
+  },
+  "result": {
+    "id": "witch_atelier:stone_symbol_square",
+    "count": 1
+  }
+}

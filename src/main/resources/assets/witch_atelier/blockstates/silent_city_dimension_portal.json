@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "axis=z": {
+      "model": "witch_atelier:block/silent_city_dimension_portal_ew"
+    },
+    "axis=x": {
+      "model": "witch_atelier:block/silent_city_dimension_portal_ns"
+    }
+  }
+}

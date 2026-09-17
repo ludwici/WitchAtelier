@@ -1,0 +1,9 @@
+{
+  "parent": "witch_atelier:custom/wood_frame_2",
+  "textures": {
+    "all": "witch_atelier:block/wood_frame_2",
+    "particle": "witch_atelier:block/wood_frame_0",
+    "0": "witch_atelier:block/wood_frame_2"
+  },
+  "render_type": "solid"
+}

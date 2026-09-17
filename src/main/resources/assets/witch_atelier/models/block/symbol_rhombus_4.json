@@ -1,0 +1,9 @@
+{
+  "parent": "witch_atelier:custom/symbol_rhombus_c0",
+  "textures": {
+    "all": "witch_atelier:block/symbol_rhombus_c0",
+    "particle": "minecraft:block/barrel_bottom",
+    "0": "witch_atelier:block/symbol_rhombus_c0"
+  },
+  "render_type": "solid"
+}
