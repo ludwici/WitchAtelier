@@ -4,8 +4,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Item;
 
 public class WoodBloodStickItem extends Item {
-    public WoodBloodStickItem() {
-        super(new Item.Properties().durability(64));
+    public WoodBloodStickItem(Item.Properties properties) {
+        super(properties);
     }
 
     @Override

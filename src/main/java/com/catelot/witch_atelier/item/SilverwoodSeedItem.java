@@ -11,10 +11,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -33,8 +31,8 @@ public class SilverwoodSeedItem extends Item {
     private static final int PARASITE_DURATION = 168000;
     private static final int PARASITE_AMPLIFIER = 1;
 
-    public SilverwoodSeedItem() {
-        super(new Item.Properties().rarity(Rarity.EPIC).food(new FoodProperties.Builder().nutrition(1).saturationModifier(0.3F).alwaysEdible().build()));
+    public SilverwoodSeedItem(Item.Properties properties) {
+        super(properties);
     }
 
     @Override

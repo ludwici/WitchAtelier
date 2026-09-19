@@ -7,7 +7,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.Block;
@@ -27,8 +26,8 @@ public class SymbolTriangleBlock extends Block implements EntityBlock {
     public static final DirectionProperty FACING = DirectionalBlock.FACING;
     public static final IntegerProperty FRAME_TYPE = IntegerProperty.create("frame_type", 0, 7);
 
-    public SymbolTriangleBlock() {
-        super(BlockBehaviour.Properties.of().sound(SoundType.WOOD).strength(1.0f, 10.0f).noOcclusion());
+    public SymbolTriangleBlock(BlockBehaviour.Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(FRAME_TYPE, 0));
     }
 

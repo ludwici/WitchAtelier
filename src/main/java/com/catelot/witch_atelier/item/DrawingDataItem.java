@@ -3,7 +3,6 @@ package com.catelot.witch_atelier.item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
@@ -19,8 +18,8 @@ import com.catelot.witch_atelier.world.inventory.CanvasGUIMenu;
 import io.netty.buffer.Unpooled;
 
 public class DrawingDataItem extends Item {
-    public DrawingDataItem() {
-        super(new Item.Properties().stacksTo(1).durability(12).rarity(Rarity.EPIC));
+    public DrawingDataItem(Item.Properties properties) {
+        super(properties);
     }
 
     @Override

@@ -22,7 +22,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -44,8 +43,8 @@ public class EvaporationflaskBlock extends Block implements SimpleWaterloggedBlo
     public static final IntegerProperty STAGE = IntegerProperty.create("stage", 0, 6);
     private static final VoxelShape SHAPE = box(0, 0, 0, 15, 15, 15);
 
-    public EvaporationflaskBlock() {
-        super(BlockBehaviour.Properties.of().sound(SoundType.GLASS).strength(1f, 10f).noOcclusion().isRedstoneConductor((state, getter, position) -> false));
+    public EvaporationflaskBlock(BlockBehaviour.Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(BOILING, false).setValue(STAGE, 0).setValue(WATERLOGGED, false));
     }
 

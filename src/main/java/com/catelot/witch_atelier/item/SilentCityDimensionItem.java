@@ -12,10 +12,8 @@ import net.minecraft.core.BlockPos;
 import com.catelot.witch_atelier.block.SilentCityDimensionPortalBlock;
 
 public class SilentCityDimensionItem extends Item {
-    public SilentCityDimensionItem() {
-        super(new Item.Properties()
-
-                .durability(64));
+    public SilentCityDimensionItem(Item.Properties properties) {
+        super(properties);
     }
 
     @Override

@@ -11,13 +11,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -25,8 +23,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class SilverwoodLogBlock extends Block {
     public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.AXIS;
 
-    public SilverwoodLogBlock() {
-        super(BlockBehaviour.Properties.of().sound(SoundType.WOOD).strength(2f, 10f).noOcclusion().randomTicks().pushReaction(PushReaction.DESTROY).isRedstoneConductor((state, getter, position) -> false).ignitedByLava());
+    public SilverwoodLogBlock(BlockBehaviour.Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(AXIS, Direction.Axis.Y));
     }
 

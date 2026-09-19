@@ -1,8 +1,6 @@
 package com.catelot.witch_atelier.block;
 
 import com.catelot.witch_atelier.WitchAtelier;
-import net.minecraft.world.level.material.PushReaction;
-import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -12,7 +10,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.grower.TreeGrower;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.Block;
@@ -31,8 +28,8 @@ public class SilverwoodSaplingBlock extends SaplingBlock implements SimpleWaterl
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final TreeGrower TREE_GROWER = new TreeGrower("silverwood_sapling", Optional.empty(), Optional.of(getFeatureKey("silverwood_tree_feature")), Optional.empty());
 
-    public SilverwoodSaplingBlock() {
-        super(TREE_GROWER, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().sound(SoundType.GRASS).strength(-1, 3600000).noCollission().pushReaction(PushReaction.DESTROY));
+    public SilverwoodSaplingBlock(BlockBehaviour.Properties properties) {
+        super(TREE_GROWER, properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(STAGE, 0).setValue(WATERLOGGED, false));
     }
 

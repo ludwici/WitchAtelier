@@ -9,7 +9,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ArmorMaterial;
@@ -55,8 +54,8 @@ public abstract class SylphShoesItem extends ArmorItem {
     }
 
     public static class Boots extends SylphShoesItem {
-        public Boots() {
-            super(ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(100)).rarity(Rarity.RARE));
+        public Boots(Item.Properties properties) {
+            super(ArmorItem.Type.BOOTS, properties);
         }
 
         private final ResourceLocation armorTexture = ResourceLocation.fromNamespaceAndPath(WitchAtelier.MODID, "textures/entities/leather_layer_1.png");

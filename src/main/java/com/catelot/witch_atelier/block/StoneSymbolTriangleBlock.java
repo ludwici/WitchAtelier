@@ -2,14 +2,13 @@ package com.catelot.witch_atelier.block;
 
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.BlockPos;
 
 public class StoneSymbolTriangleBlock extends Block {
-    public StoneSymbolTriangleBlock() {
-        super(BlockBehaviour.Properties.of().sound(SoundType.STONE).strength(1f, 10f));
+    public StoneSymbolTriangleBlock(BlockBehaviour.Properties properties) {
+        super(properties);
     }
 
     @Override

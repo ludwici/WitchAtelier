@@ -5,14 +5,13 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.core.BlockPos;
 
 public class SilverwoodBranchMatureBlock extends Block {
-    public SilverwoodBranchMatureBlock() {
-        super(BlockBehaviour.Properties.of().sound(SoundType.GRASS).strength(-1, 3600000).noCollission().isRedstoneConductor((bs, br, bp) -> false));
+    public SilverwoodBranchMatureBlock(BlockBehaviour.Properties properties) {
+        super(properties);
     }
 
     @Override

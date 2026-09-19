@@ -8,13 +8,11 @@ import net.neoforged.api.distmarker.Dist;
 
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.portal.DimensionTransition;
-import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.Portal;
 import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.Blocks;
@@ -53,8 +51,8 @@ public class SilentCityDimensionPortalBlock extends NetherPortalBlock {
         }
     }
 
-    public SilentCityDimensionPortalBlock() {
-        super(BlockBehaviour.Properties.of().noCollission().randomTicks().pushReaction(PushReaction.BLOCK).strength(-1.0F).sound(SoundType.GLASS).lightLevel(s -> 0).noLootTable());
+    public SilentCityDimensionPortalBlock(BlockBehaviour.Properties properties) {
+        super(properties);
     }
 
     private SilentCityDimensionTeleporter getTeleporter(ServerLevel level) {

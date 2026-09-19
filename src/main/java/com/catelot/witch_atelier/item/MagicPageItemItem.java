@@ -20,8 +20,8 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
 public class MagicPageItemItem extends Item {
-    public MagicPageItemItem() {
-        super(new Item.Properties().stacksTo(1));
+    public MagicPageItemItem(Item.Properties properties) {
+        super(properties);
     }
 
     @Override

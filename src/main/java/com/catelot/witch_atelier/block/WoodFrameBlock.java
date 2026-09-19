@@ -5,7 +5,6 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.Level;
@@ -19,8 +18,8 @@ public class WoodFrameBlock extends Block {
     public static final DirectionProperty FACING = DirectionalBlock.FACING;
     public static final IntegerProperty FRAME_TYPE = IntegerProperty.create("frame_type", 0, 7);
 
-    public WoodFrameBlock() {
-        super(BlockBehaviour.Properties.of().sound(SoundType.GRAVEL).strength(1f, 10f).noOcclusion());
+    public WoodFrameBlock(BlockBehaviour.Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(FRAME_TYPE, 0));
     }
 

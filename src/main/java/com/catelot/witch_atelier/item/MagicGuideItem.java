@@ -18,8 +18,8 @@ import com.catelot.witch_atelier.world.inventory.MagicGuideGUIMenu;
 import io.netty.buffer.Unpooled;
 
 public class MagicGuideItem extends Item {
-    public MagicGuideItem() {
-        super(new Item.Properties().stacksTo(1));
+    public MagicGuideItem(Item.Properties properties) {
+        super(properties);
     }
 
     @Override

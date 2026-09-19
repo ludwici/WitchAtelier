@@ -2,14 +2,13 @@ package com.catelot.witch_atelier.block;
 
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.BlockPos;
 
 public class StoneSymbolRhombusBlock extends Block {
-    public StoneSymbolRhombusBlock() {
-        super(BlockBehaviour.Properties.of().sound(SoundType.STONE).strength(1f, 10f));
+    public StoneSymbolRhombusBlock(BlockBehaviour.Properties properties) {
+        super(properties);
     }
 
     @Override

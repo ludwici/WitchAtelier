@@ -18,7 +18,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -32,8 +31,8 @@ public class SilentCityPortalBlockBlock extends Block {
             ResourceLocation.fromNamespaceAndPath(WitchAtelier.MODID, "silent_city_dimension")
     );
 
-    public SilentCityPortalBlockBlock() {
-        super(BlockBehaviour.Properties.of().sound(SoundType.AMETHYST).strength(1f, 10f).noOcclusion().isRedstoneConductor((state, getter, position) -> false));
+    public SilentCityPortalBlockBlock(BlockBehaviour.Properties properties) {
+        super(properties);
     }
 
     @Override
