@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.meowkings.witch_atelier.mixin",
+  "package": "com.catelot.witch_atelier.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "LivingEntityMixin",
