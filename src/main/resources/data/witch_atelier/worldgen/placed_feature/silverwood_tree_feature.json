@@ -2,22 +2,35 @@
   "feature": "witch_atelier:silverwood_tree_feature",
   "placement": [
     {
-      "type": "minecraft:biome"
+      "type": "minecraft:rarity_filter",
+      "chance": 1000
     },
     {
       "type": "minecraft:in_square"
     },
     {
-      "type": "minecraft:heightmap",
-      "heightmap": "OCEAN_FLOOR_WG"
-    },
-    {
-      "type": "minecraft:rarity_filter",
-      "chance": 1000
-    },
-    {
       "type": "minecraft:surface_water_depth_filter",
       "max_water_depth": 0
+    },
+    {
+      "type": "minecraft:heightmap",
+      "heightmap": "OCEAN_FLOOR"
+    },
+    {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:would_survive",
+        "state": {
+          "Name": "witch_atelier:silverwood_sapling",
+          "Properties": {
+            "stage": "0",
+            "waterlogged": "false"
+          }
+        }
+      }
+    },
+    {
+      "type": "minecraft:biome"
     }
   ]
 }

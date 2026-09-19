@@ -1,16 +1,48 @@
 {
-  "type": "witch_atelier:structure_feature",
+  "type": "minecraft:tree",
   "config": {
-    "structure": "witch_atelier:silver_tree1",
-    "ignored_blocks": [
-      "minecraft:grass_block",
-      "minecraft:structure_block",
-      "minecraft:dirt"
-    ],
-    "offset": [
-      -4,
-      -1,
-      -4
-    ]
+    "decorators": [],
+    "dirt_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "minecraft:dirt"
+      }
+    },
+    "foliage_placer": {
+      "type": "witch_atelier:silverwood_foliage_placer",
+      "offset": 0,
+      "radius": 0
+    },
+    "foliage_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "witch_atelier:silverwood_leaves"
+      }
+    },
+    "force_dirt": false,
+    "ignore_vines": true,
+    "minimum_size": {
+      "type": "minecraft:three_layers_feature_size",
+      "limit": 4,
+      "lower_size": 2,
+      "middle_size": 5,
+      "upper_limit": 2,
+      "upper_size": 4
+    },
+    "trunk_placer": {
+      "type": "witch_atelier:silverwood_trunk_placer",
+      "base_height": 11,
+      "height_rand_a": 0,
+      "height_rand_b": 0
+    },
+    "trunk_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "witch_atelier:silverwood_log",
+        "Properties": {
+          "axis": "y"
+        }
+      }
+    }
   }
 }
