@@ -9,13 +9,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(Player.class)
 public abstract class PlayerMixin {
-    @Redirect(
-            method = "tryToStartFallFlying",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/player/Player;getItemBySlot(Lnet/minecraft/world/entity/EquipmentSlot;)Lnet/minecraft/world/item/ItemStack;"
-            )
-    )
+    @Redirect(method = "tryToStartFallFlying", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getItemBySlot(Lnet/minecraft/world/entity/EquipmentSlot;)Lnet/minecraft/world/item/ItemStack;"))
     private ItemStack checkElytra(Player instance, EquipmentSlot equipmentSlot) {
         ItemStack item = instance.getItemBySlot(EquipmentSlot.FEET);
         if (item.canElytraFly(instance)) {
