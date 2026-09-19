@@ -1,7 +1,7 @@
 package com.catelot.witch_atelier.world.entity.ai.goal;
 
 import com.catelot.witch_atelier.WitchAtelier;
-import com.catelot.witch_atelier.item.SilverwoodSeedItem;
+import com.catelot.witch_atelier.potion.SilverwoodParasiteMobEffect;
 import com.catelot.witch_atelier.registries.WitchAtelierModItems;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.animal.Animal;
@@ -131,7 +131,7 @@ public class SilverwoodSeedEatGoal extends Goal {
             targetSeed.discard();
         }
 
-        SilverwoodSeedItem.applyParasite(animal, true);
+        animal.addEffect(SilverwoodParasiteMobEffect.createInstance(true));
         animal.getNavigation().stop();
         targetSeed = null;
     }

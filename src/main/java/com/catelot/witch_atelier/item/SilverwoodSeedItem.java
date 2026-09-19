@@ -2,11 +2,10 @@ package com.catelot.witch_atelier.item;
 
 import com.catelot.witch_atelier.WitchAtelier;
 import com.catelot.witch_atelier.registries.WitchAtelierModItems;
-import com.catelot.witch_atelier.registries.WitchAtelierModMobEffects;
+import com.catelot.witch_atelier.potion.SilverwoodParasiteMobEffect;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
@@ -21,9 +20,6 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 @EventBusSubscriber(modid = WitchAtelier.MODID)
 public class SilverwoodSeedItem extends Item {
-    private static final int PARASITE_DURATION = 168000;
-    private static final int PARASITE_AMPLIFIER = 1;
-
     public SilverwoodSeedItem(Item.Properties properties) {
         super(properties);
     }
@@ -38,7 +34,7 @@ public class SilverwoodSeedItem extends Item {
     public ItemStack finishUsingItem(ItemStack itemStack, Level world, LivingEntity entity) {
         ItemStack result = super.finishUsingItem(itemStack, world, entity);
         if (!world.isClientSide()) {
-            applyParasite(entity, false);
+            entity.addEffect(SilverwoodParasiteMobEffect.createInstance(false));
         }
         return result;
     }
@@ -56,14 +52,10 @@ public class SilverwoodSeedItem extends Item {
 
         player.getMainHandItem().shrink(1);
         animal.setInLove(player);
-        applyParasite(animal, true);
+        animal.addEffect(SilverwoodParasiteMobEffect.createInstance(true));
 
         if (player.level() instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(ParticleTypes.HEART, animal.getX(), animal.getY() + 1.7D, animal.getZ(), 10, 0.5D, 0.2D, 0.5D, 0.0D);
         }
-    }
-
-    public static void applyParasite(LivingEntity entity, boolean showParticles) {
-        entity.addEffect(new MobEffectInstance(WitchAtelierModMobEffects.SILVERWOOD_PARASITE, PARASITE_DURATION, PARASITE_AMPLIFIER, true, showParticles));
     }
 }
