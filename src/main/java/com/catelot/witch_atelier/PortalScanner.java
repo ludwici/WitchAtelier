@@ -1,8 +1,14 @@
 package com.catelot.witch_atelier;
 
+import com.catelot.witch_atelier.registries.WitchAtelierModBlocks;
+import com.catelot.witch_atelier.registries.WitchAtelierModBlockTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+
 import java.util.*;
 
 public class PortalScanner {
@@ -21,56 +27,60 @@ public class PortalScanner {
     }
 
     private static boolean checkAt(Level world, BlockPos corner, Direction.Axis axis, String type) {
+        TagKey<Block> parts = switch (type) {
+            case "wood" -> WitchAtelierModBlockTags.WOOD_PORTAL_PARTS;
+            case "stone" -> WitchAtelierModBlockTags.STONE_PORTAL_PARTS;
+            default -> null;
+        };
+        if (parts == null) {
+            return false;
+        }
+
         for (int a = -1; a <= 2; a++) {
             for (int b = -1; b <= 2; b++) {
                 BlockPos p = (axis == Direction.Axis.X) ? corner.offset(a, b, 0) : corner.offset(0, b, a);
-                String name = world.getBlockState(p).getBlock().toString().toLowerCase();
+                BlockState state = world.getBlockState(p);
                 boolean isInternal = (a >= 0 && a <= 1 && b >= 0 && b <= 1);
 
                 if (!isInternal) {
-                    if (!name.contains(type) && !name.contains("symbol")) {
+                    if (!state.is(parts)) {
                         return false;
                     }
-                } else {
-                    if (!world.isEmptyBlock(p) && !name.contains("portal_core")) {
-                        return false;
-                    }
+                } else if (!world.isEmptyBlock(p) && !state.is(WitchAtelierModBlocks.PORTAL_CORE_NEW.get())) {
+                    return false;
                 }
             }
         }
         return true;
     }
 
-public static String getPortalCode(Level world, BlockPos corner, Direction.Axis axis) {
-    List<String> symbols = new ArrayList<>();
-    for (int a = -1; a <= 2; a++) {
-        for (int b = -1; b <= 2; b++) {
-            if (a >= 0 && a <= 1 && b >= 0 && b <= 1) {
-                continue;
-            }
-            BlockPos p = (axis == Direction.Axis.X) ? corner.offset(a, b, 0) : corner.offset(0, b, a);
-            String n = world.getBlockState(p).getBlock().toString().toLowerCase();
+    public static String getPortalCode(Level world, BlockPos corner, Direction.Axis axis) {
+        List<String> symbols = new ArrayList<>();
+        for (int a = -1; a <= 2; a++) {
+            for (int b = -1; b <= 2; b++) {
+                if (a >= 0 && a <= 1 && b >= 0 && b <= 1) {
+                    continue;
+                }
+                BlockPos p = (axis == Direction.Axis.X) ? corner.offset(a, b, 0) : corner.offset(0, b, a);
+                BlockState state = world.getBlockState(p);
 
-            if (n.contains("circle")) {
-                symbols.add("C");
-            }
-            else if (n.contains("square")) {
-                symbols.add("S");
-            }
-            else if (n.contains("triangle")) {
-                symbols.add("T");
-            }
-            else if (n.contains("rhombus")) {
-                symbols.add("R");
+                if (state.is(WitchAtelierModBlocks.SYMBOL_CIRCLE.get()) || state.is(WitchAtelierModBlocks.STONE_SYMBOL_CIRCLE.get())) {
+                    symbols.add("C");
+                } else if (state.is(WitchAtelierModBlocks.SYMBOL_SQUARE.get()) || state.is(WitchAtelierModBlocks.STONE_SYMBOL_SQUARE.get())) {
+                    symbols.add("S");
+                } else if (state.is(WitchAtelierModBlocks.SYMBOL_TRIANGLE.get()) || state.is(WitchAtelierModBlocks.STONE_SYMBOL_TRIANGLE.get())) {
+                    symbols.add("T");
+                } else if (state.is(WitchAtelierModBlocks.SYMBOL_RHOMBUS.get()) || state.is(WitchAtelierModBlocks.STONE_SYMBOL_RHOMBUS.get())) {
+                    symbols.add("R");
+                }
             }
         }
+        Collections.sort(symbols);
+        StringBuilder sb = new StringBuilder();
+        for (String s : symbols) {
+            sb.append(s);
+        }
+        return sb.toString();
     }
-    Collections.sort(symbols);
-    StringBuilder sb = new StringBuilder();
-    for(String s : symbols) {
-        sb.append(s);
-    }
-    return sb.toString();
-}
 
 }

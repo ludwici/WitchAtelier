@@ -1,5 +1,6 @@
 package com.catelot.witch_atelier.block;
 
+import com.catelot.witch_atelier.PortalManager;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -16,8 +17,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 
 import com.catelot.witch_atelier.registries.WitchAtelierModBlocks;
 import com.catelot.witch_atelier.block.entity.SymbolTriangleBlockEntity;
@@ -34,15 +33,9 @@ public class SymbolTriangleBlock extends Block implements EntityBlock {
     @Override
     public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
         if (!world.isClientSide()) {
-            com.catelot.witch_atelier.PortalManager.onWoodSymbolClicked(world, pos, player, "T");
-            world.scheduleTick(pos, this, 600);
+            PortalManager.onWoodSymbolClicked(world, pos, player, "T");
         }
         return InteractionResult.SUCCESS;
-    }
-
-    @Override
-    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
-        com.catelot.witch_atelier.PortalManager.onSymbolTimeout(world, pos, "T");
     }
 
     @Override

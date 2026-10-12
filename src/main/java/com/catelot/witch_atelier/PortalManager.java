@@ -1,6 +1,7 @@
 package com.catelot.witch_atelier;
 
-import com.catelot.witch_atelier.WitchAtelier;
+import com.catelot.witch_atelier.registries.WitchAtelierModBlockTags;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -9,6 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.minecraft.core.particles.ParticleTypes;
@@ -18,78 +20,76 @@ import java.util.*;
 
 @EventBusSubscriber(modid = WitchAtelier.MODID)
 public class PortalManager {
-    private static final Map<UUID, String> playerInputs = new HashMap<>();
-    private static final Map<UUID, List<BlockPos>> playerClickPositions = new HashMap<>();
+    private static final long INPUT_TIMEOUT_TICKS = 600;
+    private static final Map<UUID, PortalInput> playerInputs = new HashMap<>();
+
+    private record PortalInput(String code, List<BlockPos> positions, BlockPos corner, Direction.Axis axis, ResourceKey<Level> dimension, long lastClickTick) {
+    }
 
     public static void onWoodSymbolClicked(Level world, BlockPos pos, Player player, String symbol) {
-        if (world.isClientSide()) {
+        if (!(world instanceof ServerLevel serverLevel)) {
             return;
         }
-        UUID uuid = player.getUUID();
 
-        String current = playerInputs.getOrDefault(uuid, "");
-        List<BlockPos> positions = playerClickPositions.getOrDefault(uuid, new ArrayList<>());
-
-        if (current.isEmpty()) {
-            Object[] woodData = PortalScanner.findFrameData(world, pos, "wood");
-            if (woodData != null) {
-                closeBothSides(world, (BlockPos) woodData[0]);
-            }
+        Object[] frame = PortalScanner.findFrameData(world, pos, "wood");
+        if (frame == null) {
+            return;
         }
 
-        current += symbol;
+        BlockPos corner = (BlockPos) frame[0];
+        Direction.Axis axis = (Direction.Axis) frame[1];
+        UUID uuid = player.getUUID();
+        long now = world.getGameTime();
+        PortalInput previous = playerInputs.get(uuid);
+
+        if (previous == null || now < previous.lastClickTick()
+                || now - previous.lastClickTick() >= INPUT_TIMEOUT_TICKS
+                || !previous.corner().equals(corner) || previous.axis() != axis
+                || !previous.dimension().equals(world.dimension())) {
+            closeBothSides(world, corner);
+            previous = new PortalInput("", List.of(), corner, axis, world.dimension(), now);
+        }
+
+        String code = previous.code() + symbol;
+        List<BlockPos> positions = new ArrayList<>(previous.positions());
         positions.add(pos);
 
-        playerInputs.put(uuid, current);
-        playerClickPositions.put(uuid, positions);
+        serverLevel.sendParticles(ParticleTypes.WHITE_ASH, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, 0, 0, 0, 0);
 
-        if (world instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(ParticleTypes.WHITE_ASH, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, 0, 0, 0, 0);
-        }
-
-        if (current.length() == 4) {
-            activate(world, pos, current, new ArrayList<>(positions));
-            playerInputs.put(uuid, "");
-            playerClickPositions.put(uuid, new ArrayList<>());
+        if (code.length() == 4) {
+            playerInputs.remove(uuid);
+            activate(world, corner, axis, code, positions);
+        } else {
+            playerInputs.put(uuid, new PortalInput(code, positions, corner, axis, world.dimension(), now));
         }
     }
 
-    public static void onSymbolTimeout(Level world, BlockPos pos, String symbol) {
-        if (world.isClientSide()) {
-            return;
-        }
-        playerInputs.clear();
-        playerClickPositions.clear();
+    @SubscribeEvent
+    public static void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
+        playerInputs.remove(event.getEntity().getUUID());
     }
 
-    private static void activate(Level world, BlockPos pos, String code, List<BlockPos> positions) {
-        Object[] woodData = PortalScanner.findFrameData(world, pos, "wood");
+    private static void activate(Level world, BlockPos woodCorner, Direction.Axis woodAxis, String code, List<BlockPos> positions) {
         char[] chars = code.toCharArray();
         Arrays.sort(chars);
         String sortedInput = new String(chars);
-        String entry = PortalDatabase.getStoneEntry(world, sortedInput);
-
-        if (woodData != null && entry != null) {
-            try {
-                String[] parts = entry.split(":");
-                String[] xyz = parts[1].split(",");
-                BlockPos stoneCorner = new BlockPos(Integer.parseInt(xyz[0]), Integer.parseInt(xyz[1]), Integer.parseInt(xyz[2]));
-
-                BlockPos woodCorner = (BlockPos) woodData[0];
-                Direction.Axis woodAxis = (Direction.Axis) woodData[1];
-                Direction.Axis stoneAxis = parts[2].equals("x") ? Direction.Axis.X : Direction.Axis.Z;
-
-                PortalDatabase.addActiveLink(world, woodCorner, stoneCorner);
-
-                fillPortal(world, woodCorner, woodAxis);
-                fillPortal(world, stoneCorner, stoneAxis);
-
-                spawnChainParticles(world, positions, woodAxis);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        PortalDatabase.StonePortal stone = PortalDatabase.getStonePortal(world, sortedInput);
+        if (stone == null) {
+            return;
         }
+
+        Object[] stoneFrame = PortalScanner.findFrameData(world, stone.corner(), "stone");
+        if (stoneFrame == null || !stone.corner().equals(stoneFrame[0]) || stone.axis() != stoneFrame[1]
+                || !sortedInput.equals(PortalScanner.getPortalCode(world, stone.corner(), stone.axis()))) {
+            return;
+        }
+
+        closeBothSides(world, woodCorner);
+        closeBothSides(world, stone.corner());
+        PortalDatabase.addActiveLink(world, woodCorner, stone.corner());
+        fillPortal(world, woodCorner, woodAxis);
+        fillPortal(world, stone.corner(), stone.axis());
+        spawnChainParticles(world, positions, woodAxis);
     }
 
     private static void spawnChainParticles(Level world, List<BlockPos> positions, Direction.Axis axis) {
@@ -113,7 +113,7 @@ public class PortalManager {
         double x2 = end.getX() + 0.5 + offsetX, y2 = end.getY() + 0.5, z2 = end.getZ() + 0.5 + offsetZ;
 
         double dist = Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2) + Math.pow(z2-z1, 2));
-        int steps = (int) (dist * 20);
+        int steps = Math.max(1, (int) (dist * 20));
 
         for (int i = 0; i <= steps; i++) {
             double t = (double) i / steps;
@@ -127,7 +127,6 @@ public class PortalManager {
             }
         }
     }
-
 
     private static void fillPortal(Level world, BlockPos corner, Direction.Axis axis) {
         BlockState state = com.catelot.witch_atelier.registries.WitchAtelierModBlocks.PORTAL_CORE_NEW.get().defaultBlockState();
@@ -155,14 +154,30 @@ public class PortalManager {
         if (!(event.getLevel() instanceof Level world) || world.isClientSide()) {
             return;
         }
+
+        BlockState state = event.getState();
         BlockPos pos = event.getPos();
-        String name = world.getBlockState(pos).getBlock().toString().toLowerCase();
-        if (name.contains("frame") || name.contains("symbol")) {
-            Object[] data = PortalScanner.findFrameData(world, pos, "frame");
-            if (data != null) {
-                closeBothSides(world, (BlockPos) data[0]);
+        if (isWoodPart(state)) {
+            Object[] frame = PortalScanner.findFrameData(world, pos, "wood");
+            if (frame != null) {
+                closeBothSides(world, (BlockPos) frame[0]);
+            }
+        } else if (isStonePart(state)) {
+            Object[] frame = PortalScanner.findFrameData(world, pos, "stone");
+            if (frame != null) {
+                BlockPos corner = (BlockPos) frame[0];
+                closeBothSides(world, corner);
+                PortalDatabase.removeStonePortal(world, corner);
             }
         }
+    }
+
+    private static boolean isWoodPart(BlockState state) {
+        return state.is(WitchAtelierModBlockTags.WOOD_PORTAL_PARTS);
+    }
+
+    private static boolean isStonePart(BlockState state) {
+        return state.is(WitchAtelierModBlockTags.STONE_PORTAL_PARTS);
     }
 
     private static void closeBothSides(Level world, BlockPos currentCorner) {
