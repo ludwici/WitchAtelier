@@ -1,6 +1,7 @@
 package com.catelot.witch_atelier.network;
 
 import com.catelot.witch_atelier.WitchAtelier;
+import com.catelot.witch_atelier.item.DrawingDataItem;
 import com.catelot.witch_atelier.registries.WitchAtelierModItems;
 import com.catelot.witch_atelier.world.inventory.CanvasGUIMenu;
 import net.minecraft.core.component.DataComponents;
@@ -27,18 +28,18 @@ public record NotebookPageNetwork(int page) implements CustomPacketPayload {
     public static void handle(NotebookPageNetwork message, IPayloadContext context) {
         context.enqueueWork(() -> {
             Player player = context.player();
-            if (player == null || !(player.containerMenu instanceof CanvasGUIMenu)) {
+            if (player == null || !(player.containerMenu instanceof CanvasGUIMenu menu)) {
                 return;
             }
 
-            ItemStack stack = player.getMainHandItem();
-            if (stack.isEmpty() || !stack.is(WitchAtelierModItems.DRAWING_DATA.get())) {
+            ItemStack stack = menu.getEditingStack();
+            if (!stack.is(WitchAtelierModItems.DRAWING_DATA.get()) || message.page() < 0 || message.page() >= DrawingDataItem.getRemainingPages(stack)) {
                 return;
             }
 
             CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
             CompoundTag tag = customData.copyTag();
-            int page = Math.max(0, Math.min(11, message.page()));
+            int page = message.page();
 
             tag.putInt("NotebookPage", page);
             stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));

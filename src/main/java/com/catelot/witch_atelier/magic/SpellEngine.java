@@ -127,12 +127,16 @@ public final class SpellEngine {
         return CanvasZone.NONE;
     }
 
-    public static void processCanvasUpdate(Player player, int lastIndex) {
+    public static void processCanvasUpdate(Player player) {
         Level world = player.level();
         ItemStack notebook = player.getMainHandItem();
         CompoundTag tag = notebook.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
-        String key = tag.contains("NotebookPage") ? "DrawingDataPage" + tag.getInt("NotebookPage") : "DrawingData";
+        boolean isNotebook = notebook.is(WitchAtelierModItems.DRAWING_DATA.get());
+        String key = isNotebook ? "DrawingDataPage" + tag.getInt("NotebookPage") : "DrawingData";
         byte[] drawingData = tag.getByteArray(key);
+        if (isNotebook && tag.getInt("NotebookPage") == 0 && drawingData.length != 289) {
+            drawingData = tag.getByteArray("DrawingData");
+        }
 
         if (drawingData.length == 289) {
             boolean isCircleFull = isFullCircle(drawingData);
@@ -153,13 +157,6 @@ public final class SpellEngine {
             }
         }
 
-        if (lastIndex == 2000) {
-            ItemStack magicPage = new ItemStack(WitchAtelierModItems.MAGIC_PAGE_ITEM.get());
-            if (!player.getInventory().add(magicPage)) {
-                player.drop(magicPage, false);
-            }
-            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BOOK_PAGE_TURN, SoundSource.PLAYERS, 1.0F, 1.4F);
-        }
     }
 
     private static void executeMagicCore(ServerLevel lvl, Entity source, Vec3 pos, Vec3 look, SpellStats stats, boolean isBlock) {
@@ -386,6 +383,9 @@ public final class SpellEngine {
 
     private static SpellStats scanCanvas(byte[] d) {
         SpellStats s = new SpellStats();
+        if (d.length != 289) {
+            return s;
+        }
         int c = 8;
         for (int y = 5; y <= 11; y++) {
             for (int x = 5; x <= 11; x++) {
@@ -408,7 +408,7 @@ public final class SpellEngine {
                 if (zone == CanvasZone.NONE || zone == CanvasZone.ELEMENT_CORE) {
                     continue;
                 }
-                if (d[y * 17 + x] == 1 && d[(y + 2) * 17 + x] == 1 && d[(y + 1) * 17 + x - 1] == 1 && d[(y + 1) * 17 + x + 1] == 1 && d[(y + 1) * 17 + x] == 0) {
+                if (isMarked(d, x, y) && isMarked(d, x, y + 2) && isMarked(d, x - 1, y + 1) && isMarked(d, x + 1, y + 1) && !isMarked(d, x, y + 1)) {
                     s.hasTrigger = true;
                 }
                 if (d[y * 17 + x] == 0) {
@@ -432,6 +432,10 @@ public final class SpellEngine {
             }
         }
         return s;
+    }
+
+    private static boolean isMarked(byte[] drawing, int x, int y) {
+        return x >= 0 && x < 17 && y >= 0 && y < 17 && drawing.length == 289 && drawing[y * 17 + x] == 1;
     }
 
     private static SimpleParticleType findStrictSigilAt(byte[] d, int x, int y) {

@@ -14,6 +14,7 @@ public final class ModNetworking {
         PayloadRegistrar registrar = event.registrar(PROTOCOL_VERSION);
         registrar.playToServer(WitchNetwork.TYPE, WitchNetwork.CODEC, WitchNetwork::handle);
         registrar.playToServer(NotebookPageNetwork.TYPE, NotebookPageNetwork.CODEC, NotebookPageNetwork::handle);
+        registrar.playToServer(NotebookTearPageNetwork.TYPE, NotebookTearPageNetwork.CODEC, NotebookTearPageNetwork::handle);
         WitchAtelier.LOGGER.debug("Registered Witch Atelier network payloads");
     }
 }

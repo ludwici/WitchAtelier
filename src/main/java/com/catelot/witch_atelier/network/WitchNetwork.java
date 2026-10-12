@@ -2,6 +2,7 @@ package com.catelot.witch_atelier.network;
 
 import com.catelot.witch_atelier.WitchAtelier;
 import com.catelot.witch_atelier.magic.SpellEngine;
+import com.catelot.witch_atelier.item.DrawingDataItem;
 import com.catelot.witch_atelier.registries.WitchAtelierModItems;
 import com.catelot.witch_atelier.world.inventory.CanvasGUIMenu;
 import net.minecraft.core.component.DataComponents;
@@ -38,7 +39,7 @@ public record WitchNetwork(int index, int state) implements CustomPacketPayload 
     public static void handle(WitchNetwork message, IPayloadContext context) {
         context.enqueueWork(() -> {
             Player player = context.player();
-            if (player == null || !(player.containerMenu instanceof CanvasGUIMenu)) {
+            if (player == null || !(player.containerMenu instanceof CanvasGUIMenu menu)) {
                 return;
             }
 
@@ -46,15 +47,19 @@ public record WitchNetwork(int index, int state) implements CustomPacketPayload 
                 return;
             }
 
-            if (message.index() == 2000) {
-                SpellEngine.processCanvasUpdate(player, 2000);
-                if (player instanceof ServerPlayer serverPlayer) {
-                    serverPlayer.closeContainer();
-                }
+            if (message.index() < 0 || message.index() >= 289) {
                 return;
             }
 
-            if (message.index() < 0 || message.index() >= 289) {
+            ItemStack notebook = menu.getEditingStack();
+            if (notebook.isEmpty()) {
+                return;
+            }
+
+            CustomData customData = notebook.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+            CompoundTag tag = customData.copyTag();
+            int page = tag.getInt("NotebookPage");
+            if (menu.isNotebook && (page < 0 || page >= DrawingDataItem.getRemainingPages(notebook))) {
                 return;
             }
 
@@ -99,16 +104,12 @@ public record WitchNetwork(int index, int state) implements CustomPacketPayload 
                 }
             }
 
-            ItemStack notebook = player.getMainHandItem();
-            if (notebook.isEmpty()) {
-                return;
-            }
-
-            CustomData customData = notebook.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-            CompoundTag tag = customData.copyTag();
-            String key = tag.contains("NotebookPage") ? "DrawingDataPage" + tag.getInt("NotebookPage") : "DrawingData";
+            String key = menu.isNotebook ? "DrawingDataPage" + page : "DrawingData";
 
             byte[] data = tag.getByteArray(key);
+            if (data.length != 289 && menu.isNotebook && page == 0) {
+                data = tag.getByteArray("DrawingData");
+            }
             if (data.length != 289) {
                 data = new byte[289];
             }
@@ -118,7 +119,7 @@ public record WitchNetwork(int index, int state) implements CustomPacketPayload 
             notebook.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
 
             try {
-                SpellEngine.processCanvasUpdate(player, message.index());
+                SpellEngine.processCanvasUpdate(player);
             } catch (Throwable throwable) {
                 WitchAtelier.LOGGER.error("Failed to process canvas update", throwable);
             }

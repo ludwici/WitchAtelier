@@ -1,7 +1,9 @@
 package com.catelot.witch_atelier.client.gui;
 
 import com.catelot.witch_atelier.WitchAtelier;
+import com.catelot.witch_atelier.item.DrawingDataItem;
 import com.catelot.witch_atelier.network.NotebookPageNetwork;
+import com.catelot.witch_atelier.network.NotebookTearPageNetwork;
 import com.catelot.witch_atelier.network.WitchNetwork;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
@@ -27,12 +29,10 @@ private static final ResourceLocation NOTEBOOK_TEXTURE = ResourceLocation.fromNa
     private Button tearBtn;
     private boolean isNotebookMode = false;
 
-
     private byte[] localCache = new byte[289];
     private boolean isInitialized = false;
+    private boolean tearRequested = false;
     private int currentPage = 0;
-    private static final int PAGES = 12;
-
 
     private final int CELL_SIZE = 5;
     private final int STEP = 6;
@@ -44,6 +44,8 @@ private static final ResourceLocation NOTEBOOK_TEXTURE = ResourceLocation.fromNa
         this.entity = container.entity;
         this.imageWidth = 129;
         this.imageHeight = 139;
+        CompoundTag tag = this.entity.getMainHandItem().getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        this.currentPage = Math.clamp(tag.getInt("NotebookPage"), 0, Math.max(0, getRemainingPages() - 1));
     }
     @Override
     public void init() {
@@ -56,69 +58,62 @@ private static final ResourceLocation NOTEBOOK_TEXTURE = ResourceLocation.fromNa
 
         this.leftBtn = this.addRenderableWidget(Button.builder(Component.literal("<"), (b) -> changePage(-1)).bounds(mid_x - 45, btn_y, 20, 20).build());
         this.rightBtn = this.addRenderableWidget(Button.builder(Component.literal(">"), (b) -> changePage(1)).bounds(mid_x + 25, btn_y, 20, 20).build());
-        this.tearBtn = this.addRenderableWidget(Button.builder(Component.literal("✂"), (b) -> {
-            try {
-                net.neoforged.neoforge.network.PacketDistributor.sendToServer(new WitchNetwork(2000, 0));
-            } catch (Exception ex) {
+        this.tearBtn = this.addRenderableWidget(Button.builder(Component.literal("✂"), button -> {
+            if (!tearRequested && this.menu.isNotebook && getRemainingPages() > 0) {
+                tearRequested = true;
+                net.neoforged.neoforge.network.PacketDistributor.sendToServer(new NotebookTearPageNetwork(this.menu.containerId));
             }
         }).bounds(mid_x - 10, btn_y, 20, 20).build());
 
         updateButtonVisibility();
     }
 
-
     private void changePage(int delta) {
+        int newPage = Math.clamp(this.currentPage + delta, 0, Math.max(0, getRemainingPages() - 1));
+        if (newPage == this.currentPage) {
+            return;
+        }
         saveCurrentPageToItem();
-        this.currentPage = Math.max(0, Math.min(PAGES - 1, this.currentPage + delta));
+        this.currentPage = newPage;
         loadPageFromItem(this.currentPage);
         sendPageToServer(this.currentPage);
     }
+
     @Override
     public void containerTick() {
         super.containerTick();
         if (this.minecraft.player != null) {
-            ItemStack itm = this.minecraft.player.getMainHandItem();
-
-            boolean isNotebook = itm.getDescriptionId().contains("notebook");
-
-            if (!isNotebook) {
-                net.minecraft.world.item.component.CustomData cd = itm.get(net.minecraft.core.component.DataComponents.CUSTOM_DATA);
-                if (cd != null) {
-                    isNotebook = cd.copyTag().contains("NotebookPage");
-                }
-            }
+            boolean isNotebook = this.menu.isNotebook;
 
             if (this.leftBtn != null) {
                 this.leftBtn.visible = isNotebook;
-                this.leftBtn.active = isNotebook;
+                this.leftBtn.active = isNotebook && currentPage > 0;
             }
             if (this.rightBtn != null) {
                 this.rightBtn.visible = isNotebook;
-                this.rightBtn.active = isNotebook;
+                this.rightBtn.active = isNotebook && currentPage + 1 < getRemainingPages();
             }
             if (this.tearBtn != null) {
                 this.tearBtn.visible = isNotebook;
-                this.tearBtn.active = isNotebook;
+                this.tearBtn.active = isNotebook && !tearRequested && this.currentPage < getRemainingPages();
             }
         }
     }
     private void updateButtonVisibility() {
         if (this.minecraft.player != null) {
-            ItemStack stack = this.minecraft.player.getMainHandItem();
-            String registryName = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath();
-            boolean isNotebook = registryName.contains("drawing_data");
+            boolean isNotebook = this.menu.isNotebook;
 
             if (this.leftBtn != null) {
                 this.leftBtn.visible = isNotebook;
-                this.leftBtn.active = isNotebook;
+                this.leftBtn.active = isNotebook && currentPage > 0;
             }
             if (this.rightBtn != null) {
                 this.rightBtn.visible = isNotebook;
-                this.rightBtn.active = isNotebook;
+                this.rightBtn.active = isNotebook && currentPage + 1 < getRemainingPages();
             }
             if (this.tearBtn != null) {
                 this.tearBtn.visible = isNotebook;
-                this.tearBtn.active = isNotebook;
+                this.tearBtn.active = isNotebook && !tearRequested && this.currentPage < getRemainingPages();
             }
         }
     }
@@ -139,11 +134,12 @@ private static final ResourceLocation NOTEBOOK_TEXTURE = ResourceLocation.fromNa
 
         super.render(guiGraphics, mouseX, mouseY, partialTicks);
         this.renderCanvas(guiGraphics);
+        if (this.menu.isNotebook && getRemainingPages() > 0) {
+            String pageText = (this.currentPage + 1) + " / " + getRemainingPages();
+            guiGraphics.drawCenteredString(this.font, pageText, this.leftPos + this.imageWidth / 2, this.topPos + 142, 0xFFFFFF);
+        }
         this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
-
-
-
 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int gx, int gy) {
@@ -153,12 +149,10 @@ private static final ResourceLocation NOTEBOOK_TEXTURE = ResourceLocation.fromNa
     public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
     }
 
-
-
-
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
     }
+
     private void renderCanvas(GuiGraphics guiGraphics) {
         int x_start = this.leftPos + X_OFFSET;
         int y_start = this.topPos + Y_OFFSET;
@@ -186,7 +180,6 @@ private static final ResourceLocation NOTEBOOK_TEXTURE = ResourceLocation.fromNa
         }
     }
 
-
     @Override
     public boolean mouseClicked(double mx, double my, int b) {
         this.updateDrawing(mx, my, b);
@@ -205,7 +198,6 @@ private static final ResourceLocation NOTEBOOK_TEXTURE = ResourceLocation.fromNa
             && mouseY >= this.topPos && mouseY < this.topPos + this.imageHeight;
     }
 
-
     private void updateDrawing(double mX, double mY, int mB) {
         boolean hasPen = false;
         boolean hasInk = false;
@@ -218,7 +210,7 @@ private static final ResourceLocation NOTEBOOK_TEXTURE = ResourceLocation.fromNa
                 hasInk = true;
             }
         }
-        if (!hasPen || !hasInk) {
+        if (!hasPen || !hasInk || tearRequested || (this.menu.isNotebook && this.currentPage >= getRemainingPages())) {
             return;
         }
 
@@ -250,39 +242,38 @@ private static final ResourceLocation NOTEBOOK_TEXTURE = ResourceLocation.fromNa
         }
     }
 
-
-
-
     private void updateDrawing(double mX, double mY, int mB, double dX, double dY) {
         updateDrawing(mX, mY, mB);
     }
 
-
-
     @Override
     public void removed() {
-        saveCurrentPageToItem();
-        sendPageToServer(this.currentPage);
+        if (!tearRequested) {
+            saveCurrentPageToItem();
+            sendPageToServer(this.currentPage);
+        }
         super.removed();
     }
 
     @Override
     public void onClose() {
-        saveCurrentPageToItem();
-        sendPageToServer(this.currentPage);
+        if (!tearRequested) {
+            saveCurrentPageToItem();
+            sendPageToServer(this.currentPage);
+        }
         super.onClose();
     }
 
     private void saveCurrentPageToItem() {
         ItemStack stack = this.entity.getMainHandItem();
-        if (stack.isEmpty()) {
+        if (stack.isEmpty() || tearRequested || (this.menu.isNotebook && this.currentPage >= getRemainingPages())) {
             return;
         }
         CompoundTag tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
-        if (!tag.contains("NotebookPage")) {
-            tag.putByteArray("DrawingData", this.localCache);
-        } else {
+        if (this.menu.isNotebook) {
             tag.putByteArray("DrawingDataPage" + this.currentPage, this.localCache);
+        } else {
+            tag.putByteArray("DrawingData", this.localCache);
         }
         stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
     }
@@ -294,10 +285,12 @@ private static final ResourceLocation NOTEBOOK_TEXTURE = ResourceLocation.fromNa
             return;
         }
         CompoundTag tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
-        byte[] data = tag.contains("NotebookPage") ?
-            tag.getByteArray("DrawingDataPage" + page) : tag.getByteArray("DrawingData");
+        byte[] data = this.menu.isNotebook ? tag.getByteArray("DrawingDataPage" + page) : tag.getByteArray("DrawingData");
+        if (this.menu.isNotebook && page == 0 && data.length != 289) {
+            data = tag.getByteArray("DrawingData");
+        }
 
-        if (data != null && data.length == 289) {
+        if (data.length == 289) {
             this.localCache = data.clone();
         }
         else {
@@ -305,12 +298,18 @@ private static final ResourceLocation NOTEBOOK_TEXTURE = ResourceLocation.fromNa
         }
     }
 
+    private int getRemainingPages() {
+        return this.menu.isNotebook ? DrawingDataItem.getRemainingPages(this.entity.getMainHandItem()) : 1;
+    }
+
     private void sendPageToServer(int page) {
         try {
             net.neoforged.neoforge.network.PacketDistributor.sendToServer(
                 new NotebookPageNetwork(page)
             );
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+            WitchAtelier.LOGGER.info("");
+        }
     }
 
     @Override
