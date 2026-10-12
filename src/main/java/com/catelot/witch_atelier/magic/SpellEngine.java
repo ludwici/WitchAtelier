@@ -34,7 +34,9 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.nbt.CompoundTag;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @EventBusSubscriber(modid = WitchAtelier.MODID)
 public final class SpellEngine {
@@ -259,6 +261,9 @@ public final class SpellEngine {
 
     private static void spawnRay(ServerLevel lvl, Entity source, Vec3 start, Vec3 dir, double dist, SimpleParticleType el, SpellStats s) {
         double hitRadius = s.getRadiusMod();
+        AABB rayBounds = new AABB(start, start.add(dir.scale(dist))).inflate(hitRadius);
+        List<LivingEntity> candidates = lvl.getEntitiesOfClass(LivingEntity.class, rayBounds);
+        Set<Integer> affectedEntities = new HashSet<>();
         for (double d = 0; d < dist; d += 0.3) {
             Vec3 pos = start.add(dir.scale(d));
             lvl.sendParticles(el, pos.x, pos.y, pos.z, 1, 0.02, 0.02, 0.02, 0);
@@ -273,7 +278,7 @@ public final class SpellEngine {
             }
             double falloff = Math.max(0.1, 1.0 - (d / dist));
             double pwr = (1.0 + s.totalPower * 0.08) * s.getPowerMod() * falloff;
-            applyEffectsAt(lvl, source, pos, dir, el, pwr, hitRadius);
+            applyEffectsAt(lvl, source, pos, dir, el, pwr, hitRadius, candidates, affectedEntities);
         }
     }
 
@@ -291,11 +296,18 @@ public final class SpellEngine {
 
     private static void applyEffectsAt(ServerLevel lvl, Entity src, Vec3 p, Vec3 d, SimpleParticleType el, double pwr, double radius) {
         AABB box = new AABB(p.x - radius, p.y - radius, p.z - radius, p.x + radius, p.y + radius, p.z + radius);
-        List<LivingEntity> targets = lvl.getEntitiesOfClass(LivingEntity.class, box);
+        applyEffectsAt(lvl, src, p, d, el, pwr, radius, lvl.getEntitiesOfClass(LivingEntity.class, box), null);
+    }
+
+    private static void applyEffectsAt(ServerLevel lvl, Entity src, Vec3 p, Vec3 d, SimpleParticleType el, double pwr, double radius, List<LivingEntity> targets, Set<Integer> affectedEntities) {
+        AABB box = new AABB(p.x - radius, p.y - radius, p.z - radius, p.x + radius, p.y + radius, p.z + radius);
         BlockPos bPos = BlockPos.containing(p.x, p.y, p.z);
         for (LivingEntity le : targets) {
-            if (src != null && le == src) {
+            if (!le.isAlive() || (src != null && le == src) || (affectedEntities != null && affectedEntities.contains(le.getId())) || !le.getBoundingBox().intersects(box)) {
                 continue;
+            }
+            if (affectedEntities != null) {
+                affectedEntities.add(le.getId());
             }
             le.hurtMarked = true;
             if (el == ParticleTypes.FLAME) {
