@@ -4,7 +4,8 @@
     "type": "minecraft:flat",
     "settings": {
       "structure_overrides": [
-        "witch_atelier:citytower_1"
+        "witch_atelier:city_maze",
+        "witch_atelier:silent_tower"
       ],
       "layers": [
         { "block": "minecraft:bedrock", "height": 1 },

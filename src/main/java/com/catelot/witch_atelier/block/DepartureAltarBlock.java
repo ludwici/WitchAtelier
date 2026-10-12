@@ -1,11 +1,6 @@
 package com.catelot.witch_atelier.block;
 
-import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
-import net.minecraft.network.protocol.game.ClientboundLevelEventPacket;
-import net.minecraft.network.protocol.game.ClientboundPlayerAbilitiesPacket;
-import net.minecraft.network.protocol.game.ClientboundUpdateMobEffectPacket;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.level.ServerLevel;
+import com.catelot.witch_atelier.world.teleporter.SilentCityTravel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -122,23 +117,14 @@ public class DepartureAltarBlock extends Block {
     public InteractionResult useWithoutItem(BlockState blockstate, Level world, BlockPos pos, Player entity, BlockHitResult hit) {
         super.useWithoutItem(blockstate, world, pos, entity, hit);
 
-        if (entity instanceof ServerPlayer serverPlayer && !serverPlayer.level().isClientSide()) {
-            ResourceKey<Level> destinationType = Level.OVERWORLD;
-            if (serverPlayer.level().dimension() == destinationType) {
+        boolean teleported = true;
+        if (entity instanceof ServerPlayer serverPlayer) {
+            if (serverPlayer.level().dimension() == Level.OVERWORLD) {
                 return InteractionResult.PASS;
             }
-            ServerLevel nextLevel = serverPlayer.server.getLevel(destinationType);
-            if (nextLevel != null) {
-                serverPlayer.connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.WIN_GAME, 0));
-                serverPlayer.teleportTo(nextLevel, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), serverPlayer.getYRot(), serverPlayer.getXRot());
-                serverPlayer.connection.send(new ClientboundPlayerAbilitiesPacket(serverPlayer.getAbilities()));
-                for (MobEffectInstance effectInstance : serverPlayer.getActiveEffects()) {
-                    serverPlayer.connection.send(new ClientboundUpdateMobEffectPacket(serverPlayer.getId(), effectInstance, false));
-                }
-                serverPlayer.connection.send(new ClientboundLevelEventPacket(1032, BlockPos.ZERO, 0, false));
-            }
+            teleported = SilentCityTravel.leave(serverPlayer);
         }
-        if (!entity.level().isClientSide()) {
+        if (teleported && !entity.level().isClientSide()) {
             entity.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 100, 1));
         }
 

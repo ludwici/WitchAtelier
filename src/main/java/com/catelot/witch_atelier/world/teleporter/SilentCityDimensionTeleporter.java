@@ -29,6 +29,7 @@ import com.catelot.witch_atelier.registries.WitchAtelierModBlocks;
 
 import java.util.Optional;
 import java.util.Comparator;
+import java.util.Iterator;
 
 import com.google.common.collect.ImmutableSet;
 
@@ -69,11 +70,13 @@ public class SilentCityDimensionTeleporter {
         int i = Math.min(this.level.getMaxBuildHeight(), this.level.getMinBuildHeight() + this.level.getLogicalHeight()) - 1;
         int j = 1;
         BlockPos.MutableBlockPos blockpos$mutableblockpos = p_77667_.mutable();
-        for (BlockPos.MutableBlockPos blockpos$mutableblockpos1 : BlockPos.spiralAround(p_77667_, 16, Direction.EAST, Direction.SOUTH)) {
+        Iterator<BlockPos.MutableBlockPos> positions = BlockPos.spiralAround(p_77667_, 16, Direction.EAST, Direction.SOUTH).iterator();
+        while (positions.hasNext() && d0 == -1.0) {
+            BlockPos.MutableBlockPos blockpos$mutableblockpos1 = positions.next();
             int k = Math.min(i, this.level.getHeight(Heightmap.Types.MOTION_BLOCKING, blockpos$mutableblockpos1.getX(), blockpos$mutableblockpos1.getZ()));
             if (worldborder.isWithinBounds(blockpos$mutableblockpos1) && worldborder.isWithinBounds(blockpos$mutableblockpos1.move(direction, 1))) {
                 blockpos$mutableblockpos1.move(direction.getOpposite(), 1);
-                for (int l = k; l >= this.level.getMinBuildHeight(); l--) {
+                for (int l = k; l >= this.level.getMinBuildHeight() && d0 == -1.0; l--) {
                     blockpos$mutableblockpos1.setY(l);
                     if (this.canPortalReplaceBlock(blockpos$mutableblockpos1)) {
                         int i1 = l;
